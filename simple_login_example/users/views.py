@@ -14,9 +14,9 @@ def login(req):
         password = req.GET['pw']
 
         if (user_id != user_data['id']):
-            return HttpResponse('Invalid Username.')
+            return HttpResponse('Invalid Username.', status=401)
         elif (password != user_data['password']):
-            return HttpResponse('Invalid Password.')
+            return HttpResponse('Invalid Password.', status=401)
         else:
             return HttpResponse('Login Success!')
 
