@@ -1,15 +1,15 @@
 import json
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.utils.datastructures import MultiValueDictKeyError
+# from django.utils.datastructures import MultiValueDictKeyError
 
 def login(req):
     user_data = {
         'id': 'python',
         'password': 'django',
     }
-
+    
     if (req.method == 'GET'):
         return render(req, 'users/login.html')
 
@@ -18,21 +18,21 @@ def login(req):
         password = req.POST.get('pw')
 
         if (not user_id):
-            return HttpResponse('No input id.')
+            return render(req, 'users/input_blank.html', {'data': 'userid'})
         if (not password):
-            return HttpResponse('No input password.')
+            return render(req, 'users/input_blank.html', {'data': 'password'})
 
         if (user_id != user_data['id']):
-            return HttpResponse('Invalid Username.', status=401)
+            return render(req, 'users/unauthorized.html', {'data': 'userid'}, status=401)
         elif (password != user_data['password']):
-            return HttpResponse('Invalid Password.', status=401)
-        else:
-            return HttpResponse('<h3 style="color:blue;">Login Success!</h3>')
-
-    data = json.dumps(req.GET)
-    return HttpResponse(f"""This is the main login page. <br>
-                        method: {req.method} <br>
-                        data: {data}""")
+            return render(req, 'users/unauthorized.html', {'data': 'password'}, status=401)
+        else: # Login Success
+            res = redirect('pages:index')
+            res.set_cookie('user_id', user_id)
+            res.set_cookie('password', password)
+            res.set_cookie('authorized', True)
+            
+            return res
 
 def login_detail(req, id):
     return HttpResponse(f'Your user ID is \'{id}\'.')
