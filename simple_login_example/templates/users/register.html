@@ -19,15 +19,16 @@
                             <input type="text" name="id" id="id" />
                         </td>
                     </tr>
-                    {% if blank %} {% if 'type' == 'user_id' %}
+                    {% if blank and type == 'user_id' %}
                     <tr>
                         <td style="color: red">ID cannot be blank.</td>
                     </tr>
-                    {% else %}
+                    {% endif %}
+                    {% if exist %}
                     <tr>
-                        <td style="color: red">Password cannot be blank.</td>
+                        <td style="color: red">ID already exists!</td>
                     </tr>
-                    {% endif %} {% endif %}
+                    {% endif %}
                     <tr>
                         <td>
                             <label for="password">Password</label>
@@ -36,14 +37,14 @@
                             <input type="password" name="pw" id="pw" />
                         </td>
                     </tr>
-                    {% if exist %}
+                    {% if blank and type == 'password' %}
                     <tr>
-                        <td style="color: red">ID already exists!</td>
+                        <td style="color: red">Password cannot be blank.</td>
                     </tr>
                     {% endif %}
                     <tr>
                         <td>
-                            <input type="submit" value="Login" />
+                            <input type="submit" value="Register" />
                         </td>
                     </tr>
                 </tbody>
