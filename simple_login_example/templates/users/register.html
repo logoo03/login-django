@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Login Page</title>
+        <title>Register Page</title>
     </head>
     <body>
         <form method="post">
@@ -19,6 +19,15 @@
                             <input type="text" name="id" id="id" />
                         </td>
                     </tr>
+                    {% if blank %} {% if 'type' == 'user_id' %}
+                    <tr>
+                        <td style="color: red">ID cannot be blank.</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td style="color: red">Password cannot be blank.</td>
+                    </tr>
+                    {% endif %} {% endif %}
                     <tr>
                         <td>
                             <label for="password">Password</label>
@@ -27,6 +36,11 @@
                             <input type="password" name="pw" id="pw" />
                         </td>
                     </tr>
+                    {% if exist %}
+                    <tr>
+                        <td style="color: red">ID already exists!</td>
+                    </tr>
+                    {% endif %}
                     <tr>
                         <td>
                             <input type="submit" value="Login" />
